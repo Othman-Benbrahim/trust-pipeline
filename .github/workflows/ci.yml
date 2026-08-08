@@ -1,1 +1,36 @@
+name: CI
 
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Cohérence de l'arborescence, moteur de score, signaux, langues,
+      # parseur XML, parseur de flux, background et popup.
+      - name: Suite de tests
+        run: npm test
+
+      # Le validateur officiel AMO. Zéro erreur ET zéro avertissement :
+      # l'extension doit rester soumissible à tout moment.
+      - name: Validation AMO
+        run: |
+          npm run build
+          npx addons-linter trust-pipeline.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trust-pipeline
+          path: trust-pipeline.zip
