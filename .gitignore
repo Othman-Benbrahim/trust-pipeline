@@ -1,0 +1,15 @@
+node_modules/
+*.log
+.DS_Store
+
+# Artefact de build : régénérable par `npm run build`
+trust-pipeline.zip
+
+# Corpus exportés depuis le navigateur — données de lecture personnelles,
+# elles n'ont rien à faire dans un dépôt public.
+*.corpus.json
+trust-pipeline-corpus-*.json
+
+# Clés de signature AMO
+.env
+web-ext-artifacts/

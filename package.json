@@ -1,0 +1,47 @@
+{
+  "name": "trust-pipeline",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Add-on Firefox : agrégateur RSS 100 % local avec score de confiance par source et décroissance temporelle.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Othman-Benbrahim/trust-pipeline.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Othman-Benbrahim/trust-pipeline/issues"
+  },
+  "homepage": "https://github.com/Othman-Benbrahim/trust-pipeline#readme",
+  "keywords": [
+    "firefox",
+    "webextension",
+    "rss",
+    "atom",
+    "jsonfeed",
+    "local-first",
+    "trust",
+    "scoring"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node tests/test-structure.js && node tests/test-scoring.js && node tests/test-signals.js && node tests/test-lang.js && node tests/test-xml.js && node tests/test-parser.js && node tests/test-replay.js && node tests/harness-background.js && node tests/harness-popup.js",
+    "test:structure": "node tests/test-structure.js",
+    "test:scoring": "node tests/test-scoring.js",
+    "test:signals": "node tests/test-signals.js",
+    "test:lang": "node tests/test-lang.js",
+    "test:xml": "node tests/test-xml.js",
+    "test:parser": "node tests/test-parser.js",
+    "test:background": "node tests/harness-background.js",
+    "test:popup": "node tests/harness-popup.js",
+    "test:replay": "node tests/test-replay.js",
+    "lint": "npx addons-linter .",
+    "build": "node build.js",
+    "replay": "node tools/replay.js"
+  },
+  "devDependencies": {
+    "addons-linter": "^7.0.0",
+    "jsdom": "^24.0.0"
+  }
+}

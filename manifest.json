@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Trust Pipeline",
+  "version": "0.1.0",
+  "description": "Agrégateur RSS 100% local avec score de confiance par source et décroissance temporelle.",
+  "homepage_url": "https://github.com/Othman-Benbrahim/trust-pipeline",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "trust-pipeline@local",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "optional_host_permissions": [
+    "*://*/*"
+  ],
+  "background": {
+    "scripts": [
+      "src/config.js",
+      "src/scoring.js",
+      "src/xml.js",
+      "src/parser.js",
+      "src/store.js",
+      "src/background.js"
+    ]
+  },
+  "action": {
+    "default_title": "Trust Pipeline",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png"
+    }
+  },
+  "icons": {
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png",
+    "128": "icons/icon-128.png"
+  }
+}
