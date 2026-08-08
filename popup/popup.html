@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Trust Pipeline</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
 
+  <header class="masthead">
+    <div class="masthead__id">
+      <span class="eyebrow">Trust pipeline</span>
+      <span class="readout" id="readout">Chargement…</span>
+    </div>
+    <button type="button" class="btn btn--sync" id="sync">Synchroniser</button>
+  </header>
+
+  <form class="add" id="add-form">
+    <input
+      class="add__url"
+      id="add-url"
+      type="url"
+      inputmode="url"
+      autocomplete="off"
+      placeholder="https://exemple.fr/rss.xml"
+      aria-label="URL du flux à ajouter"
+      required>
+    <button type="submit" class="btn btn--ghost">Ajouter</button>
+  </form>
+
+  <div class="grant" id="grant" hidden>
+    <p class="grant__text" id="grant-text"></p>
+    <button type="button" class="btn btn--ghost" id="grant-btn">Autoriser</button>
+  </div>
+
+  <p class="notice" id="notice" role="status" hidden></p>
+
+  <main class="board">
+    <p class="legend">
+      <span class="legend__swatch legend__swatch--live"></span>score
+      <span class="legend__swatch legend__swatch--loss"></span>érosion à 7 j
+      <span class="legend__swatch legend__swatch--tick"></span>neutre 50
+    </p>
+    <ol class="ranking" id="ranking"></ol>
+    <p class="empty" id="empty" hidden>
+      Aucune source suivie. Collez l’URL d’un flux ci-dessus pour démarrer.
+    </p>
+  </main>
+
+  <footer class="foot">
+    <span class="foot__stats" id="foot-stats"></span>
+    <button type="button" class="foot__action" id="export">Exporter le corpus</button>
+  </footer>
+
+  <template id="row-template">
+    <li class="src">
+      <div class="src__head">
+        <span class="rank" data-rank></span>
+        <span class="src__name">
+          <span class="src__title" data-title></span>
+          <span class="src__host" data-host></span>
+        </span>
+        <span class="src__score" data-score></span>
+      </div>
+
+      <div class="track" data-track role="img">
+        <span class="track__fill" data-fill></span>
+        <span class="track__loss" data-loss></span>
+        <i class="track__tick" aria-hidden="true"></i>
+      </div>
+
+      <div class="src__meta">
+        <span class="tag tag--lang" data-lang hidden></span>
+        <span class="tag" data-silence></span>
+        <span class="tag" data-count></span>
+        <span class="tag tag--alert" data-error hidden></span>
+        <span class="src__actions">
+          <button type="button" class="chip" data-action="up" title="Valider cette source">+</button>
+          <button type="button" class="chip" data-action="down" title="Dévaluer cette source">−</button>
+          <button type="button" class="chip chip--kill" data-action="remove" title="Retirer">×</button>
+        </span>
+      </div>
+      <button type="button" class="src__more" data-toggle aria-expanded="false">Pourquoi ce score ?</button>
+      <ol class="log" data-log hidden></ol>
+    </li>
+  </template>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+/* Trust Pipeline — popup
+   Palette : os froid / encre ardoise / pin profond / ocre de décroissance.
+   Le mono porte la personnalité : capitales espacées pour les libellés,
+   chiffres tabulaires pour tout ce qui se compare. */
+
+:root {
+  --paper:  #EFF0EA;
+  --panel:  #E5E7DF;
+  --ink:    #14181C;
+  --muted:  #6E756F;
+  --rule:   #D0D2C8;
+  --live:   #1D5C4E;
+  --fade:   #9B7A2E;
+  --alert:  #A33B27;
+
+  --mono: ui-monospace, "SFMono-Regular", Menlo, "DejaVu Sans Mono", "Liberation Mono", Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+
+  --gap: 12px;
+}
+
+* { box-sizing: border-box; }
+
+/* Un `display` explicite dans la feuille auteur écrase la règle [hidden] du
+   navigateur : l'élément reste visible alors qu'il est marqué caché. C'est ce
+   qui affichait une bannière « Autoriser » vide en permanence. */
+[hidden] { display: none !important; }
+
+body {
+  width: 400px;
+  max-height: 580px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* --- Masthead ----------------------------------------------------------- */
+
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: 14px var(--gap) 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.masthead__id { display: flex; flex-direction: column; min-width: 0; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--live);
+}
+
+.readout {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Boutons ------------------------------------------------------------ */
+
+.btn {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn--sync { background: var(--ink); color: var(--paper); position: relative; overflow: hidden; }
+.btn--sync:hover { background: var(--live); border-color: var(--live); }
+.btn--ghost { background: transparent; color: var(--ink); }
+.btn--ghost:hover { background: var(--panel); }
+.btn:disabled { opacity: 0.45; cursor: progress; }
+
+.btn--sync.is-busy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+  animation: scan 1.1s linear infinite;
+}
+
+@keyframes scan { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+:focus-visible { outline: 2px solid var(--live); outline-offset: 2px; }
+
+/* --- Ajout de source ---------------------------------------------------- */
+
+.add {
+  display: flex;
+  gap: 6px;
+  padding: 10px var(--gap);
+  border-bottom: 1px solid var(--rule);
+}
+
+.add__url {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 8px 10px;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.add__url::placeholder { color: var(--muted); }
+
+.grant {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px var(--gap);
+  background: var(--panel);
+  border-bottom: 1px solid var(--rule);
+}
+
+.grant__text {
+  flex: 1;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.notice {
+  margin: 0;
+  padding: 8px var(--gap);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--alert);
+  background: var(--panel);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* --- Classement --------------------------------------------------------- */
+
+.board { flex: 1; overflow-y: auto; }
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  padding: 8px var(--gap);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.legend__swatch {
+  width: 14px;
+  height: 7px;
+  border: 1px solid var(--rule);
+  border-radius: 1px;
+}
+
+.legend__swatch + .legend__swatch { margin-left: 8px; }
+.legend__swatch--live { background: var(--live); }
+.legend__swatch--tick { width: 3px; background: var(--muted); border: 0; height: 9px; }
+
+.legend__swatch--loss {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(155, 122, 46, 0.95) 0 2px,
+    rgba(239, 240, 234, 0.65) 2px 5px
+  );
+}
+
+.ranking { list-style: none; margin: 0; padding: 0; }
+
+.src {
+  padding: 12px var(--gap) 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.src__head {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.rank {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.src__name { min-width: 0; display: flex; flex-direction: column; }
+
+.src__title {
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.src__host {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.src__score {
+  font-family: var(--mono);
+  font-size: 19px;
+  font-variant-numeric: tabular-nums;
+  color: var(--live);
+  letter-spacing: -0.02em;
+}
+
+.src.is-faint .src__score { color: var(--fade); }
+
+/* --- Signature : la piste de décroissance ------------------------------- */
+
+.track {
+  position: relative;
+  height: 7px;
+  margin: 9px 0 8px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.track__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--live);
+  transition: width 380ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.src.is-faint .track__fill { background: var(--fade); }
+
+/* Zone hachurée : ce que le silence coûtera dans les 7 prochains jours. */
+.track__loss {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(155, 122, 46, 0.95) 0 2px,
+    rgba(239, 240, 234, 0.65) 2px 5px
+  );
+  transition: width 380ms cubic-bezier(0.2, 0.7, 0.3, 1), left 380ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* Repère du score neutre (50). */
+.track__tick {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(20, 24, 28, 0.28);
+}
+
+/* --- Méta et actions ---------------------------------------------------- */
+
+.src__meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+.tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tag--alert { color: var(--alert); }
+
+.tag--lang {
+  padding: 1px 5px;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.src__actions { margin-left: auto; display: flex; gap: 4px; }
+
+.chip {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1;
+  width: 22px;
+  height: 22px;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.chip:hover { border-color: var(--live); color: var(--live); }
+.chip--kill:hover { border-color: var(--alert); color: var(--alert); }
+
+.src__more {
+  display: block;
+  margin-top: 8px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.src__more:hover { color: var(--live); }
+
+.log {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 6px 10px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.log li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.log__delta {
+  flex: 0 0 auto;
+  min-width: 34px;
+  text-align: right;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.log__delta--up { color: var(--live); }
+.log__delta--down { color: var(--fade); }
+.log__reason { flex: 1; color: var(--ink); }
+
+.log__when {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.log__empty { color: var(--muted); }
+
+/* --- Vides et pied ------------------------------------------------------ */
+
+.empty {
+  margin: 0;
+  padding: 28px var(--gap);
+  color: var(--muted);
+  text-align: center;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px var(--gap);
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.foot__action {
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.foot__action:hover { color: var(--live); }
+
+/* --- Thème sombre ------------------------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #171A18;
+    --panel: #222623;
+    --ink:   #E7E9E2;
+    --muted: #8B928A;
+    --rule:  #333833;
+    --live:  #6FBFA4;
+    --fade:  #C9A44F;
+    --alert: #D9705A;
+  }
+  .btn--sync { background: var(--live); color: #12140F; border-color: var(--live); }
+  .btn--sync:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .track__tick { background: rgba(231, 233, 226, 0.3); }
+  .track__loss {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(201, 164, 79, 0.95) 0 2px,
+      rgba(23, 26, 24, 0.7) 2px 5px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
