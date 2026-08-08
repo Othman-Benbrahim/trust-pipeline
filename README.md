@@ -1,6 +1,6 @@
 # Trust Pipeline
 
-[![CI](https://github.com/Othman-Benbrahim/trust-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/VOTRE-COMPTE/trust-pipeline/actions/workflows/ci.yml)
+[![CI](https://github.com/Othman-Benbrahim/trust-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/Othman-Benbrahim/trust-pipeline/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-1D5C4E.svg)](LICENSE)
 
 Add-on Firefox (Manifest V3) qui agrège des flux RSS/Atom/JSON Feed et attribue à chaque **source** un score de confiance qui se dégrade avec le silence.
